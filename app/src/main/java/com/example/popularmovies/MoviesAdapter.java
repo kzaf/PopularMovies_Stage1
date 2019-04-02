@@ -10,10 +10,10 @@ import com.squareup.picasso.Picasso;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
 
-    final private ListItemClickListener mOnClickListener;
-    private int mNumberItems;
+    final private MoviesAdapterListItemClickListener mOnClickListener;
+    private String[] mNumberItems;
 
-    public MoviesAdapter(int numberOfMovies, ListItemClickListener listener) {
+    public MoviesAdapter(String[] numberOfMovies, MoviesAdapterListItemClickListener listener) {
         mNumberItems = numberOfMovies;
         mOnClickListener = listener;
     }
@@ -33,10 +33,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     @Override
     public int getItemCount() {
-        return mNumberItems;
+        if (null == mNumberItems) return 0;
+        return mNumberItems.length;
     }
 
-    public interface ListItemClickListener{
+    public interface MoviesAdapterListItemClickListener {
         void onListItemClick(int item);
     }
 
@@ -65,4 +66,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
             mOnClickListener.onListItemClick(adapterPosition);
         }
     }
+
+    public void setMoviesData(){
+
+        notifyDataSetChanged();
+    }
+
+
 }
