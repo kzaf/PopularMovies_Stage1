@@ -33,14 +33,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mNumberItems;
     }
 
     public interface ListItemClickListener{
         void onListItemClick(int item);
     }
 
-    class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView mMoviePoster;
 
@@ -61,7 +61,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
         @Override
         public void onClick(View v) {
-            // TODO: implement onClick
+            int adapterPosition = getAdapterPosition();
+            mOnClickListener.onListItemClick(adapterPosition);
         }
     }
 }
