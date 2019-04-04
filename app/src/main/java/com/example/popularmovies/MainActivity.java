@@ -14,7 +14,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.popularmovies.models.Movie;
+import com.example.popularmovies.utilities.MovieDetailsJsonUtils;
+import com.example.popularmovies.utilities.NetworkUtils;
+
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity implements MoviesAdapter.MoviesAdapterListItemClickListener {
+
+    public static final String POPULAR_QUERY = "popular";
+    public static final String TOP_RATED_QUERY = "top_rated";
 
     private RecyclerView mRecyclerView;
     private  MoviesAdapter mMoviesAdapter;
@@ -24,29 +33,30 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
     private ProgressBar mLoadingIndicator;
 
+    private Movie[] mMovies;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_movies);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.progressBar);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
-        //TODO: Fix the below part
-//        mLayoutManager = new GridLayoutManager(this);
-//        mMoviesAdapter = new MoviesAdapter(this);
+        mLayoutManager = new GridLayoutManager(this, 100); //TODO: Fix the number
+        mMoviesAdapter = new MoviesAdapter(mMovies, this);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_movies);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mMoviesAdapter);
 
-        loadMovieData();
+        loadMovieData(POPULAR_QUERY);
     }
 
-    private void loadMovieData(){
+    private void loadMovieData(String query){
         showMoviesList();
-        new FetchMovieTask().execute(); //TODO: Fill execute with something
+        new FetchMovieTask().execute(query);
     }
 
     @Override
@@ -68,15 +78,15 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.sort_most_popular){
-            //TODO: Sort most popular
+            loadMovieData(POPULAR_QUERY);
         }else{
-            //TODO: Sort highest rated
+            loadMovieData(TOP_RATED_QUERY);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public class FetchMovieTask extends AsyncTask<String, Void, String[]>{
+    public class FetchMovieTask extends AsyncTask<String, Void, Movie[]>{
 
         @Override
         protected void onPreExecute() {
@@ -85,12 +95,32 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         }
 
         @Override
-        protected String[] doInBackground(String... strings) { //TODO: Implement this
-            return new String[0];
+        protected Movie[] doInBackground(String... strings) {
+
+            if (strings.length == 0) {
+                return null;
+            }
+
+            String searchQuery = strings[0];
+            URL movieRequestURL = NetworkUtils.buildUrl(searchQuery);
+
+            try {
+                String jsonMovieResponse = NetworkUtils.
+                        getResponseFromHttpUrl(movieRequestURL);
+
+                mMovies = MovieDetailsJsonUtils.
+                        getSimpleWeatherStringsFromJson(MainActivity.this, jsonMovieResponse);
+
+                return mMovies;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
 
         @Override
-        protected void onPostExecute(String[] movies) {
+        protected void onPostExecute(Movie[] movies) {
             mLoadingIndicator.setVisibility(View.INVISIBLE);
             if (movies != null) {
                 showMoviesList();
