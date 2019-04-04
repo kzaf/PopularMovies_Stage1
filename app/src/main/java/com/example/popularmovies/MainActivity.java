@@ -1,7 +1,9 @@
 package com.example.popularmovies;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
     private RecyclerView mRecyclerView;
     private  MoviesAdapter mMoviesAdapter;
-    private GridLayoutManager mLayoutManager;
 
     private TextView mErrorMessageDisplay;
 
@@ -44,11 +45,12 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         mLoadingIndicator = (ProgressBar) findViewById(R.id.progressBar);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
-        mLayoutManager = new GridLayoutManager(this, 100); //TODO: Fix the number
-        mMoviesAdapter = new MoviesAdapter(mMovies, this);
+//        mMoviesAdapter = new MoviesAdapter(mMovies, this);
+        GridLayoutManager LayoutManager = new GridLayoutManager(this, 2); //TODO: Fix the number
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(LayoutManager);
         mRecyclerView.setHasFixedSize(true);
+
         mRecyclerView.setAdapter(mMoviesAdapter);
 
         loadMovieData(POPULAR_QUERY);
@@ -61,10 +63,14 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
     @Override
     public void onListItemClick(int item) {
-        //TODO: Change the Toast to Intent call for the Details Screen
+
         Context context = this;
-        Toast.makeText(context, "Item no: " + item + " has been clicked", Toast.LENGTH_SHORT)
-                .show();
+
+        Intent intent = new Intent(this, MovieDetailsActivity.class);
+//        intent.putExtra("Movie", (Parcelable) mMovies[item]);//TODO: Fix the putExtra
+        startActivity(intent);
+
+        Toast.makeText(context, "Item no: " + item + " has been clicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.example.popularmovies.utilities;
 
 import android.net.Uri;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +14,6 @@ public final class NetworkUtils {
     // Example URL for popular sorting: http://api.themoviedb.org/3/movie/popular?api_key=[YOUR_API_KEY]
     // Example URL for specific movie: http://api.themoviedb.org/3/movie/550?api_key=[YOUR_API_KEY]
     private static final String MOVIE_BASE_URL = "https://api.themoviedb.org/3/movie/";
-    private static final String SEARCH_QUERY = "search_query";
     private static final String API_KEY = "api_key";
 
     private static String apiKey = "ee788f257b666388a520e77301095a63"; //"Your api key - Replace -";
