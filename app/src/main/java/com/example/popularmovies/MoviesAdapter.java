@@ -1,5 +1,6 @@
 package com.example.popularmovies;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,14 +54,15 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         }
 
         void bind(int pos) {
-
-            // TODO: Fix picasso
             String imagePath = mNumberItems[pos].getMoviePoster();
             Picasso.get()
                     .load(imagePath)
                     .placeholder(R.drawable.movie_poster_placeholder_image)
                     .error(R.drawable.not_found_poster_image)
                     .into(mMoviePoster);
+            // There was an issue with http images coming from the server. The Picasso as well as Glide (tried both)
+            // could not load 'http', only 'https' urls. Therefore I implement this solution found on SO: https://stackoverflow.com/questions/53288020/picasso-doesnt-load-images-from-http-links-in-api-28
+            // Including "android:usesCleartextTraffic="true"" into the Manifest solve the issue. Not the best way though as far as I can say.
         }
 
         @Override

@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"> <!-- https://stackoverflow.com/questions/53288020/picasso-doesnt-load-images-from-http-links-in-api-28 -->
         <activity android:name=".MovieDetailsActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
