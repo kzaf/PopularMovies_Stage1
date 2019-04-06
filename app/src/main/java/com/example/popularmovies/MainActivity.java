@@ -1,9 +1,7 @@
 package com.example.popularmovies;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.popularmovies.models.Movie;
 import com.example.popularmovies.utilities.MovieDetailsJsonUtils;
@@ -62,14 +59,9 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
 
     @Override
     public void onListItemClick(int item) {
-
-        Context context = this;
-
         Intent intent = new Intent(this, MovieDetailsActivity.class);
         intent.putExtra("Movie", mMovies[item]); // Send the movie Object as Parcelable
         startActivity(intent);
-
-        Toast.makeText(context, "Item no: " + item + " has been clicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override

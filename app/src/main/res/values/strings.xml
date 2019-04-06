@@ -4,4 +4,9 @@
     <string name="highest_rated">Highest rated</string>
     <string name="error_message">An error occured, please refresh</string>
     <string name="the_movie_poster_string">The movie poster</string>
+    <string name="movie_name">Movie Name</string>
+    <string name="the_movie_poster">The movie poster</string>
+    <string name="year">Year</string>
+    <string name="rating">Rating</string>
+    <string name="description">Description</string>
 </resources>
