@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         mLoadingIndicator = (ProgressBar) findViewById(R.id.progressBar);
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
 
-//        mMoviesAdapter = new MoviesAdapter(mMovies, this);
         GridLayoutManager LayoutManager = new GridLayoutManager(this, 2); //TODO: Fix the number
 
         mRecyclerView.setLayoutManager(LayoutManager);
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements MoviesAdapter.Mov
         Context context = this;
 
         Intent intent = new Intent(this, MovieDetailsActivity.class);
-//        intent.putExtra("Movie", (Parcelable) mMovies[item]);//TODO: Fix the putExtra
+        intent.putExtra("Movie", mMovies[item]); // Send the movie Object as Parcelable
         startActivity(intent);
 
         Toast.makeText(context, "Item no: " + item + " has been clicked", Toast.LENGTH_SHORT).show();

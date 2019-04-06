@@ -1,11 +1,15 @@
 package com.example.popularmovies;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.popularmovies.models.Movie;
+import com.squareup.picasso.Picasso;
 
 public class MovieDetailsActivity extends AppCompatActivity {
 
@@ -29,9 +33,46 @@ public class MovieDetailsActivity extends AppCompatActivity {
         mMovieDescription = (TextView) findViewById(R.id.details_description_tv);
 
 
+        Intent intent = getIntent();
+        Movie selectedMovie = intent.getParcelableExtra("Movie"); // Receive the Movie object as Parcelable
 
-        //TODO: Receive the intent from the MainActivity
+        populateUi(selectedMovie);
     }
 
+    private void populateUi(Movie movie){
+
+        String notAvailable = "N/A";
+
+        if(movie.getMovieTitle() != null && !(movie.getMovieTitle().equals(""))){
+            mMovieTitle.setText(movie.getMovieTitle());
+        }else{
+            mMovieTitle.setText(notAvailable);
+        }
+
+        if(movie.getMovieRelease() != null && !(movie.getMovieRelease().equals(""))){
+            // substring to get the 4 first characters of the string. The year
+            mMovieYear.setText(movie.getMovieRelease().substring(0, 4));
+        }else{
+            mMovieTitle.setText(notAvailable);
+        }
+
+        if(movie.getMovieRate() != null && !(movie.getMovieRate().equals(""))){
+            mMovieRating.setText(movie.getMovieRate());
+        }else{
+            mMovieTitle.setText(notAvailable);
+        }
+
+        if(movie.getMovieOverview() != null && !(movie.getMovieOverview().equals(""))){
+            mMovieDescription.setText(movie.getMovieOverview());
+        }else{
+            mMovieTitle.setText(notAvailable);
+        }
+
+        Picasso.get()
+                .load(movie.getMoviePoster())
+                .placeholder(R.drawable.movie_poster_placeholder_image)
+                .error(R.drawable.not_found_poster_image)
+                .into(mMoviePoster);
+    }
 
 }
