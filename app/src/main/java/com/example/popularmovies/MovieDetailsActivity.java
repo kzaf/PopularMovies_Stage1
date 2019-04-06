@@ -10,25 +10,29 @@ import android.widget.TextView;
 import com.example.popularmovies.models.Movie;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MovieDetailsActivity extends AppCompatActivity {
 
-    private ImageView mMoviePoster;
-    private TextView mMovieTitle;
-    private TextView mMovieYear;
-    private TextView mMovieRating;
-    private TextView mMovieDescription;
+    @BindView(R.id.details_poster)
+    ImageView mMoviePoster;
+    @BindView(R.id.movie_title_tv)
+    TextView mMovieTitle;
+    @BindView(R.id.details_year_tv)
+    TextView mMovieYear;
+    @BindView(R.id.details_rating_tv)
+    TextView mMovieRating;
+    @BindView(R.id.details_description_tv)
+    TextView mMovieDescription;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        mMoviePoster = (ImageView) findViewById(R.id.details_poster);
-        mMovieTitle = (TextView) findViewById(R.id.movie_title_tv);
-        mMovieYear = (TextView) findViewById(R.id.details_year_tv);
-        mMovieRating = (TextView) findViewById(R.id.details_rating_tv);
-        mMovieDescription = (TextView) findViewById(R.id.details_description_tv);
-
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         Movie selectedMovie = intent.getParcelableExtra("Movie"); // Receive the Movie object as Parcelable
